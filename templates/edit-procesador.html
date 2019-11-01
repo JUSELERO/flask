@@ -1,0 +1,15 @@
+
+{% extends "layout.html" %}
+{% block body %}
+<form action="/update/{{procesador.0}}" method='POST'>
+
+    <input type="text" name="nombre" placeholder="nombre" value="{{procesador.1}}">
+    <input type="text" name="cores" placeholder="Cores" value="{{procesador.2}}">
+    <input type="text" name="marca" placeholder="Marca" value="{{procesador.3}}">
+    <input type="text" name="frecuencia" placeholder="Frecuencia" value="{{procesador.4}}">
+    
+    <button type='submit'>save</button>
+    
+    </form>
+{% endblock %}
+   

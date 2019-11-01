@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block body %}
+
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+ <p>{{message}}</p>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<form action="/add_procesadores" method='POST'>
+
+<input type="text" name="nombre" placeholder="nombre">
+<input type="text" name="cores" placeholder="Cores">
+<input type="text" name="marca" placeholder="Marca">
+<input type="text" name="frecuencia" placeholder="Frecuencia">
+
+<button type='submit'>save</button>
+
+</form>
+
+<table>
+    <thead>
+    <tr>
+        <td>id</td>
+        <td>nombre </td>
+        <td>cores </td>
+        <td>marca </td>
+        <td>frecuencia</td>
+    </tr>
+</thead>
+<tbody>
+    {% for procesador in procesadores %}
+
+    
+    <tr><td>{{procesador.0 }}  </td>
+        <td>{{procesador.1 }}  </td>
+        <td>{{procesador.2 }} </td>
+        <td>{{procesador.3 }} </td>
+        <td>{{procesador.4 }} </td>
+        <td><a href="/delete/{{procesador.0}}"> Delete </a>  
+            <a href="/edit/{{procesador.0}}"> Edit </a>
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+
+{% endblock %}
