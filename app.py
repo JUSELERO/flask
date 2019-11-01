@@ -10,6 +10,9 @@ app.config['MYSQL_DB'] = 'pcsoluciones'
 mysql=MySQL(app)
 
 app.secret_key = 'mysecretkey'
+
+
+
 @app.route("/")
 def Index():
     cur=mysql.connection.cursor()

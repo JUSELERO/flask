@@ -1,15 +1,25 @@
 
 {% extends "layout.html" %}
 {% block body %}
-<form action="/update/{{procesador.0}}" method='POST'>
 
-    <input type="text" name="nombre" placeholder="nombre" value="{{procesador.1}}">
-    <input type="text" name="cores" placeholder="Cores" value="{{procesador.2}}">
-    <input type="text" name="marca" placeholder="Marca" value="{{procesador.3}}">
-    <input type="text" name="frecuencia" placeholder="Frecuencia" value="{{procesador.4}}">
-    
-    <button type='submit'>save</button>
-    
+<div class="offset-md-4">
+<div class="card card-body">
+<form action="/update/{{procesador.0}}" method='POST'>
+    <div class="form-group">
+    <input type="text" name="nombre" placeholder="nombre" value="{{procesador.1}}" class="form-control">
+    </div>
+    <div class="form-control">
+    <input type="text" name="cores" placeholder="Cores" value="{{procesador.2}}" class="form-control">
+    </div>
+    <div class="form-control">
+    <input type="text" name="marca" placeholder="Marca" value="{{procesador.3}}" class="form-control">
+    </div>
+    <div class="form-control">
+    <input type="text" name="frecuencia" placeholder="Frecuencia" value="{{procesador.4}}" class="form-control">
+    </div>
+    <button type='submit' class="btn btn-primary btn-block">save</button>    
     </form>
+</div>
+</div>
 {% endblock %}
    
