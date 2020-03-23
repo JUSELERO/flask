@@ -1,16 +1,18 @@
+drop database JuSeTech;
 create database JuSeTech;
 use JuSeTech;
 
 
 create table Cliente
-(id_cliente int primary key,
+(id_cliente int AUTO_INCREMENT  primary key not null,
 nombre_cliente varchar(45),
 telefono_cliente varchar(45),
-direccion_cliente varchar(45)
+direccion_cliente varchar(45),
+ciudad_cliente varchar(45)
 );
 
 create table Empleados
-(id_empleado int primary key,
+(id_empleado int AUTO_INCREMENT primary key not null,
 clave varchar(45),
 nombre_empleado varchar(45),
 telefono_empleado varchar(45),
@@ -18,23 +20,22 @@ cargo_empleado varchar(45)
 );
 
 create table Proveedores
-(id_proveedor int primary key,
+(id_proveedor int AUTO_INCREMENT  primary key not null,
 nombre_proveedor varchar(45),
 tel_proveedor varchar(45)
 );
 
 create table Factura
-(id_factura int,
+(id_factura int AUTO_INCREMENT  primary key not null,
 fecha date,
 id_cliente int,
 id_empleado int,
-primary key(id_factura),
 constraint fk_cliente_factura foreign key (id_cliente) references Cliente(id_cliente),
 constraint fk_Empleados_factura foreign key (id_empleado) references Empleados(id_empleado)
 );
 
 create table Compras
-(id_compras_factura int primary key,
+(id_compras_factura int AUTO_INCREMENT  primary key not null,
 fecha date,
 id_empleado int,
 id_proveedor int,
@@ -42,8 +43,11 @@ constraint fk_proveedores_compras foreign key (id_proveedor) references Proveedo
 constraint fk_empleado_compras foreign key (id_empleado) references Empleados(id_empleado)
 );
 
+
+
+
 create table Productos
-(id_producto int primary key not null,
+(id_producto int AUTO_INCREMENT  primary key not null,
 nombre_producto varchar(45),
 tipo_producto varchar(45),
 marca varchar(45)
@@ -62,6 +66,14 @@ constraint fk_producto_contiene foreign key (id_producto) references Productos(i
 
 );
 
+
+DELIMITER $
+create trigger sumar_al_inventario before insert on Compras_contiene_productos for each row begin
+update Inventario SET cantidad_inventario=cantidad_inventario + new.cantidad_compra where id_producto=new.id_producto;
+
+END $
+DELIMITER ;
+
 create table Factura_contiene_producto
 (id_factura int,
 id_cliente int,
@@ -73,8 +85,15 @@ constraint fk_cliente_contienep foreign key (id_cliente) references Cliente(id_c
 constraint fk_producto_contienep foreign key (id_producto) references Productos(id_producto)
 );
 
+DELIMITER $
+create trigger restar_al_inventario before insert on Factura_contiene_producto for each row begin
+update Inventario SET cantidad_inventario=cantidad_inventario - new.cantidad_producto where id_producto=new.id_producto;
+
+END $
+DELIMITER ;
+
 create table Caracteristicas
-(id_caracteristicas int primary key,
+(id_caracteristicas int AUTO_INCREMENT  primary key not null,
 nombre varchar(45),
 valor varchar(45)
 );
@@ -89,18 +108,26 @@ constraint fk_caracteristia_tiene foreign key (id_caracteristica) references Car
 
 create table Inventario
 (id_producto int primary key,
-cantidad_intentario varchar(45)
+cantidad_inventario int
 );
 
-insert into Cliente values (9090,'juan','3193897599','cll 41 N-34-57');
-insert into Cliente values (2132173,'sebastian','3115717400','atalaya');
-insert into Cliente values (121232,'camilo','123456','piedecuesta');
-insert into Cliente values (434343,'leonardo dallos','4343434','brr la universidad');
 
-insert into Empleados values (10023,'123456','persefone','543343','gerente');
-insert into Empleados values (20023,'123456','lodiba','554333','venedor');
-insert into Empleados values (20054,'123456','narciso','554322','limpieza');
-insert into Empleados values (20005,'cocuyretrix5','luvodipa','5405904','vendedor');
+DELIMITER $
+create trigger agregar_al_inventario before insert on Productos for each row begin
+insert into Inventario values(new.id_producto,0);
+END $
+DELIMITER ;
+
+
+insert into Cliente values (9090,'juan','3193897599','cll 41 N-34-57','bucaramanga');
+insert into Cliente values (2132173,'sebastian','3115717400','atalaya','cucuta');
+insert into Cliente values (121232,'camilo','123456','piedecuesta','bucaramanga');
+insert into Cliente values (434343,'leonardo dallos','4343434','brr la universidad','pegaso');
+
+insert into Empleados values ('10023','123456','persefone','543343','gerente');
+insert into Empleados values ('20023','123456','lodiba','554333','venedor');
+insert into Empleados values ('20054','123456','narciso','554322','limpieza');
+insert into Empleados values ('20005','cocuyretrix5','luvodipa','5405904','vendedor');
 
 insert into Proveedores values (55094,'amazon','+12069220880');
 insert into Proveedores values (55100,'newegg','+12323343454');
@@ -115,3 +142,13 @@ insert into Factura values (3,'2020-03-04',2132173,20005);
 
 insert into Compras values (213,curdate(),20023,55100);
 insert into Compras values (111,curdate(),20054,55100);
+
+insert into Productos values (1,'b450m','mobo','asus');
+insert into Productos values (2,'lpx','RAM','corsair');
+insert into Productos values (3,'A400','SSD','Kingston');
+
+insert into Compras values (1,'2020-03-06',20023,55094);
+insert into Compras values (2,'2020-03-06',20005,55000);
+
+insert into Compras_contiene_productos values (1,20005,55094,1,2);
+insert into Compras_contiene_productos values (1,20005,55094,3,5);
