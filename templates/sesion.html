@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="card card-body">
+
+                <div class="col-md-10" aria-controls="navbarNavDropdown" aria-expanded="true" aria-label="Toggle navigation">
+                        Identificate
+                        </div>
+        <form action="/Sesion" method='POST'>
+            <div class="form-grooup">
+                    <input type="text" name="correo" placeholder="Correo" class="form-control">
+            </div>
+            <div class="form-grooup">
+            <input type="text" name="clave" placeholder="Clave" class="form-control">
+            </div>
+                       
+            <div class="form-group">
+                    <button type='submit' class="btn btn-primary btn-block">save</button>
+            </div>
+            
+            
+            </form>
+            
+</div>
+
+
+{% endblock %}

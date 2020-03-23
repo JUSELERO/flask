@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="card card-body">
+
+        <form action="/Crear-usuario-final" method='POST'>
+            <div class="form-grooup">
+                    <input type="text" name="cedula" placeholder="Cedula" class="form-control">
+            </div>
+            <div class="form-grooup">
+            <input type="text" name="nombre" placeholder="Nombre" class="form-control">
+            </div>
+            <div class="form-grooup">
+                    <input type="text" name="correo" placeholder="Correo" class="form-control">
+            </div>
+            <div class="form-grooup">
+                    <input type="text" name="clave" placeholder="Clave" class="form-control">
+            </div>
+            <div class="form-grooup">
+                    <input type="text" name="tipo" placeholder="Tipo" class="form-control">
+            </div>
+                       
+            <div class="form-group">
+                    <button type='submit' class="btn btn-primary btn-block">Save</button>
+            </div>
+            
+            
+            </form>
+            
+</div>
+
+
+{% endblock %}
