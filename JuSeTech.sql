@@ -4,11 +4,7 @@ use JuSeTech;
 
 
 create table Cliente
-<<<<<<< HEAD:sql
-(id_cliente int AUTO_INCREMENT  primary key not null,
-=======
 (id_cliente int primary key not null,
->>>>>>> 6f467d9aff12dfadf2eb42d830dbe63e36c5a3b0:JuSeTech.sql
 nombre_cliente varchar(45),
 telefono_cliente varchar(45),
 direccion_cliente varchar(45),
@@ -16,11 +12,7 @@ ciudad_cliente varchar(45)
 );
 
 create table Empleados
-<<<<<<< HEAD:sql
-(id_empleado int AUTO_INCREMENT primary key not null,
-=======
 (id_empleado int primary key not null,
->>>>>>> 6f467d9aff12dfadf2eb42d830dbe63e36c5a3b0:JuSeTech.sql
 clave varchar(45),
 nombre_empleado varchar(45),
 telefono_empleado varchar(45),
@@ -28,21 +20,13 @@ cargo_empleado varchar(45)
 );
 
 create table Proveedores
-<<<<<<< HEAD:sql
-(id_proveedor int AUTO_INCREMENT  primary key not null,
-=======
 (id_proveedor int primary key not null,
->>>>>>> 6f467d9aff12dfadf2eb42d830dbe63e36c5a3b0:JuSeTech.sql
 nombre_proveedor varchar(45),
 tel_proveedor varchar(45)
 );
 
 create table Factura
-<<<<<<< HEAD:sql
-(id_factura int AUTO_INCREMENT  primary key not null,
-=======
 (id_factura int not null,
->>>>>>> 6f467d9aff12dfadf2eb42d830dbe63e36c5a3b0:JuSeTech.sql
 fecha date,
 id_cliente int,
 id_empleado int,
@@ -51,11 +35,7 @@ constraint fk_Empleados_factura foreign key (id_empleado) references Empleados(i
 );
 
 create table Compras
-<<<<<<< HEAD:sql
-(id_compras_factura int AUTO_INCREMENT  primary key not null,
-=======
 (id_compras_factura int primary key not null,
->>>>>>> 6f467d9aff12dfadf2eb42d830dbe63e36c5a3b0:JuSeTech.sql
 fecha date,
 id_empleado int,
 id_proveedor int,
@@ -67,11 +47,7 @@ constraint fk_empleado_compras foreign key (id_empleado) references Empleados(id
 
 
 create table Productos
-<<<<<<< HEAD:sql
-(id_producto int AUTO_INCREMENT  primary key not null,
-=======
 (id_producto int primary key AUTO_INCREMENT not null,
->>>>>>> 6f467d9aff12dfadf2eb42d830dbe63e36c5a3b0:JuSeTech.sql
 nombre_producto varchar(45),
 tipo_producto varchar(45),
 marca varchar(45)
@@ -117,11 +93,7 @@ END $
 DELIMITER ;
 
 create table Caracteristicas
-<<<<<<< HEAD:sql
-(id_caracteristicas int AUTO_INCREMENT  primary key not null,
-=======
 (id_caracteristicas int primary key not null,
->>>>>>> 6f467d9aff12dfadf2eb42d830dbe63e36c5a3b0:JuSeTech.sql
 nombre varchar(45),
 valor varchar(45)
 );
@@ -135,13 +107,8 @@ constraint fk_caracteristia_tiene foreign key (id_caracteristica) references Car
 
 
 create table Inventario
-<<<<<<< HEAD:sql
-(id_producto int primary key,
-cantidad_inventario int
-=======
 (id_producto int primary key not null,
 cantidad_intentario varchar(45)
->>>>>>> 6f467d9aff12dfadf2eb42d830dbe63e36c5a3b0:JuSeTech.sql
 );
 
 
@@ -176,15 +143,3 @@ insert into Factura values (3,'2020-03-04',2132173,20005);
 insert into Compras values (213,curdate(),20023,55100);
 insert into Compras values (111,curdate(),20054,55100);
 
-<<<<<<< HEAD:sql
-insert into Productos values (1,'b450m','mobo','asus');
-insert into Productos values (2,'lpx','RAM','corsair');
-insert into Productos values (3,'A400','SSD','Kingston');
-
-insert into Compras values (1,'2020-03-06',20023,55094);
-insert into Compras values (2,'2020-03-06',20005,55000);
-
-insert into Compras_contiene_productos values (1,20005,55094,1,2);
-insert into Compras_contiene_productos values (1,20005,55094,3,5);
-=======
->>>>>>> 6f467d9aff12dfadf2eb42d830dbe63e36c5a3b0:JuSeTech.sql

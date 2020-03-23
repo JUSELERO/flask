@@ -10,47 +10,16 @@ app.config['MYSQL_USER'] = 'juse'
 app.config['MYSQL_PASSWORD'] = 'admin'
 app.config['MYSQL_DB'] = 'JuSeTech'
 
-<<<<<<< HEAD
 
 mysql=MySQL(app)
 
 app.secret_key = 'mysecretkey'
 
-=======
-@app.route("/Sesion")
-def Sesion():
-        return render_template('sesion.html')
-
-@app.route("/crear-usuario")
-def Crear_usuario():
-        return render_template('crear-usuario.html')
-
-@app.route("/Crear-usuario-final", methods = ['POST'])
-def Crear_usuario_final():
-        if request.method == 'POST':
-            cedula= request.form['cedula']
-            nombre = request.form['nombre']
-            correo = request.form['correo']
-            clave = request.form['clave']
-            tipo = request.form['tipo']
-            cur = mysql.connection.cursor()
-            cur.execute('INSERT INTO usuarios (cedula,nombre,correo,clave,tipo) VALUES (%s,%s,%s,%s,%s)' , (cedula,nombre,correo,clave,tipo))
-            mysql.connection.commit()
-            flash ('Good job')
-            return redirect(url_for('Crear_usuario'))
-
-
-#Crear_usuario_final
->>>>>>> 6f467d9aff12dfadf2eb42d830dbe63e36c5a3b0
 @app.route("/")
 def Inicio():
     return render_template('Inicio.html' )
 
 
-<<<<<<< HEAD
-@app.route("/productos",methods = ['POST','GET'])
-def Productos():
-=======
 
 
 @app.route("/index")
@@ -84,7 +53,6 @@ def Productos():
 
 @app.route('/add_producto' , methods = ['POST'] )
 def add_producto():
->>>>>>> 6f467d9aff12dfadf2eb42d830dbe63e36c5a3b0
     if request.method == 'POST':
         nombre = request.form['nombre']        
         marca = request.form['marca']
@@ -94,24 +62,16 @@ def add_producto():
         mysql.connection.commit()
         flash('Good job')
         return redirect(url_for('Productos'))
-<<<<<<< HEAD
     else:
         cur=mysql.connection.cursor()
         cur.execute('SELECT * FROM Productos')
         data=cur.fetchall()
         return render_template('productos.html' , productos = data)
-=======
-
->>>>>>> 6f467d9aff12dfadf2eb42d830dbe63e36c5a3b0
 
 @app.route('/delete/<string:id>')
 def delete_producto(id):
     cur = mysql.connection.cursor()
-<<<<<<< HEAD
     cur.execute(f'DELETE FROM Productos WHERE id_producto = {id}')
-=======
-    cur.execute('DELETE FROM  Productos WHERE id_producto = {0}'.format(id))
->>>>>>> 6f467d9aff12dfadf2eb42d830dbe63e36c5a3b0
     mysql.connection.commit()
     flash('contact delet succesfully')
     return redirect(url_for('Productos'))
@@ -142,7 +102,6 @@ def get_producto(id):
         print (data[0])
         return render_template('edit-procesador.html',procesador = data[0])
 
-<<<<<<< HEAD
 #Inicio de sesion
 @app.route("/Sesion")
 def Sesion():
@@ -164,9 +123,6 @@ def Crear_usuario():
         return redirect(url_for('Crear_usuario'))
     else:
         return render_template('crear-usuario.html')
-=======
-   
->>>>>>> 6f467d9aff12dfadf2eb42d830dbe63e36c5a3b0
 
 if __name__=='__main__':
     app.run(port = 3000)
