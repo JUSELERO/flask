@@ -20,16 +20,6 @@ def Inicio():
     return render_template('Inicio.html' )
 
 
-
-
-@app.route("/index")
-def Index():
-    cur=mysql.connection.cursor()
-    cur.execute('SELECT * FROM procesadores')
-    data=cur.fetchall()
-
-    return render_template('index.html' , procesadores = data)
-
 @app.route("/ventas")
 def Ventas():
     return render_template('ventas.html')
@@ -42,17 +32,8 @@ def Ventas_echa():
     data=cur.fetchall()
     return render_template('ventas.html' , Ventas = data)
 
-
-@app.route("/productos")
+@app.route('/productos' , methods = ['POST','GET'] )
 def Productos():
-    cur=mysql.connection.cursor()
-    cur.execute('SELECT * FROM Productos')
-    data=cur.fetchall()
-    return render_template('productos.html' , productos = data)
-
-
-@app.route('/add_producto' , methods = ['POST'] )
-def add_producto():
     if request.method == 'POST':
         nombre = request.form['nombre']        
         marca = request.form['marca']
@@ -94,7 +75,7 @@ def get_producto(id):
         """,(nombre,cores,marca,frecuencia,id))
         flash('procesador update succefully')
         mysql.connection.commit()
-        return redirect(url_for('Index'))
+        return redirect(url_for('Productos'))
     else :
         cur = mysql.connection.cursor()
         cur.execute('SELECT * FROM procesadores WHERE id = {}'.format(id))
