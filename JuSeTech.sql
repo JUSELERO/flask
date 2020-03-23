@@ -3,14 +3,14 @@ use JuSeTech;
 
 
 create table Cliente
-(id_cliente int primary key,
+(id_cliente int primary key not null,
 nombre_cliente varchar(45),
 telefono_cliente varchar(45),
 direccion_cliente varchar(45)
 );
 
 create table Empleados
-(id_empleado int primary key,
+(id_empleado int primary key not null,
 clave varchar(45),
 nombre_empleado varchar(45),
 telefono_empleado varchar(45),
@@ -18,13 +18,13 @@ cargo_empleado varchar(45)
 );
 
 create table Proveedores
-(id_proveedor int primary key,
+(id_proveedor int primary key not null,
 nombre_proveedor varchar(45),
 tel_proveedor varchar(45)
 );
 
 create table Factura
-(id_factura int,
+(id_factura int not null,
 fecha date,
 id_cliente int,
 id_empleado int,
@@ -34,7 +34,7 @@ constraint fk_Empleados_factura foreign key (id_empleado) references Empleados(i
 );
 
 create table Compras
-(id_compras_factura int primary key,
+(id_compras_factura int primary key not null,
 fecha date,
 id_empleado int,
 id_proveedor int,
@@ -43,14 +43,14 @@ constraint fk_empleado_compras foreign key (id_empleado) references Empleados(id
 );
 
 create table Productos
-(id_producto int primary key not null,
+(id_producto int primary key AUTO_INCREMENT not null,
 nombre_producto varchar(45),
 tipo_producto varchar(45),
 marca varchar(45)
 );
 
 create table Compras_contiene_productos
-(id_compras_factura int,
+(id_compras_factura int not null,
 id_empleado int,
 id_proveedor int,
 id_producto int,
@@ -63,7 +63,7 @@ constraint fk_producto_contiene foreign key (id_producto) references Productos(i
 );
 
 create table Factura_contiene_producto
-(id_factura int,
+(id_factura int not null,
 id_cliente int,
 id_producto int,
 cantidad_producto varchar(45),
@@ -74,7 +74,7 @@ constraint fk_producto_contienep foreign key (id_producto) references Productos(
 );
 
 create table Caracteristicas
-(id_caracteristicas int primary key,
+(id_caracteristicas int primary key not null,
 nombre varchar(45),
 valor varchar(45)
 );
@@ -88,7 +88,7 @@ constraint fk_caracteristia_tiene foreign key (id_caracteristica) references Car
 
 
 create table Inventario
-(id_producto int primary key,
+(id_producto int primary key not null,
 cantidad_intentario varchar(45)
 );
 
@@ -115,3 +115,4 @@ insert into Factura values (3,'2020-03-04',2132173,20005);
 
 insert into Compras values (213,curdate(),20023,55100);
 insert into Compras values (111,curdate(),20054,55100);
+

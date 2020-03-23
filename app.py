@@ -13,27 +13,28 @@ app.secret_key = 'mysecretkey'
 
 @app.route("/Sesion")
 def Sesion():
-    return render_template('sesion.html')
+        return render_template('sesion.html')
 
 @app.route("/crear-usuario")
 def Crear_usuario():
-    return render_template('crear-usuario.html')
+        return render_template('crear-usuario.html')
 
 @app.route("/Crear-usuario-final", methods = ['POST'])
 def Crear_usuario_final():
-    if request.method == 'POST':
-        cedula= request.form['cedula']
-        nombre = request.form['nombre']
-        correo = request.form['correo']
-        clave = request.form['clave']
-        tipo = request.form['tipo']
-        cur = mysql.connection.cursor()
-        cur.execute('INSERT INTO usuarios (cedula,nombre,correo,clave,tipo) VALUES (%s,%s,%s,%s,%s)' , (cedula,nombre,correo,clave,tipo))
-        mysql.connection.commit()
-        flash ('Good job')
-    return redirect(url_for('Crear_usuario'))
+        if request.method == 'POST':
+            cedula= request.form['cedula']
+            nombre = request.form['nombre']
+            correo = request.form['correo']
+            clave = request.form['clave']
+            tipo = request.form['tipo']
+            cur = mysql.connection.cursor()
+            cur.execute('INSERT INTO usuarios (cedula,nombre,correo,clave,tipo) VALUES (%s,%s,%s,%s,%s)' , (cedula,nombre,correo,clave,tipo))
+            mysql.connection.commit()
+            flash ('Good job')
+            return redirect(url_for('Crear_usuario'))
 
-Crear_usuario_final
+
+#Crear_usuario_final
 @app.route("/")
 def Inicio():
     return render_template('Inicio.html' )
@@ -49,13 +50,26 @@ def Index():
 
     return render_template('index.html' , procesadores = data)
 
+@app.route("/ventas")
+def Ventas():
+    return render_template('ventas.html')
+
+
+@app.route("/ventas-echa")
+def Ventas_echa():
+    cur=mysql.connection.cursor()
+    cur.execute('select P.nombre_producto,P.tipo_producto,P.marca,I.cantidad_inventario from Productos P left join Inventario I on P.id_producto=I.id_producto;')
+    data=cur.fetchall()
+    return render_template('ventas.html' , Ventas = data)
+
+
 @app.route("/productos")
 def Productos():
     cur=mysql.connection.cursor()
     cur.execute('SELECT * FROM Productos')
     data=cur.fetchall()
-
     return render_template('productos.html' , productos = data)
+
 
 @app.route('/add_producto' , methods = ['POST'] )
 def add_producto():
@@ -70,26 +84,13 @@ def add_producto():
         return redirect(url_for('Productos'))
 
 
-
-@app.route('/add_procesadores' , methods = ['POST'] )
-def add_procesadores():
-    if request.method == 'POST':
-        nombre = request.form['nombre']        
-        marca = request.form['marca']
-        tipo= request.form['tipo']
-        cur = mysql.connection.cursor()
-        cur.execute('INSERT INTO producto (nombre_producto,tipo_producto,marca) VALUES (%s,%s,%s)' , (nombre,tipo,marca))
-        mysql.connection.commit()
-        flash('Good job')
-        return redirect(url_for('Productos'))
-
 @app.route('/delete/<string:id>')
 def delete_contact(id):
     cur = mysql.connection.cursor()
-    cur.execute('DELETE FROM  procesadores WHERE id = {0}'.format(id))
+    cur.execute('DELETE FROM  Productos WHERE id_producto = {0}'.format(id))
     mysql.connection.commit()
     flash('contact delet succesfully')
-    return redirect(url_for('Index'))
+    return redirect(url_for('Productos'))
 
 @app.route('/edit/<id>')
 def get_procesador(id):
@@ -119,6 +120,7 @@ def get_procesador_edit(id):
     mysql.connection.commit()
     return redirect(url_for('Index'))
 
+   
 
 if __name__=='__main__':
     app.run(port= 3000,debug=True)
