@@ -1,3 +1,4 @@
+drop database JuSeTech;
 create database JuSeTech;
 use JuSeTech;
 
@@ -6,7 +7,8 @@ create table Cliente
 (id_cliente int primary key not null,
 nombre_cliente varchar(45),
 telefono_cliente varchar(45),
-direccion_cliente varchar(45)
+direccion_cliente varchar(45),
+ciudad_cliente varchar(45)
 );
 
 create table Empleados
@@ -28,7 +30,6 @@ create table Factura
 fecha date,
 id_cliente int,
 id_empleado int,
-primary key(id_factura),
 constraint fk_cliente_factura foreign key (id_cliente) references Cliente(id_cliente),
 constraint fk_Empleados_factura foreign key (id_empleado) references Empleados(id_empleado)
 );
@@ -41,6 +42,9 @@ id_proveedor int,
 constraint fk_proveedores_compras foreign key (id_proveedor) references Proveedores(id_proveedor),
 constraint fk_empleado_compras foreign key (id_empleado) references Empleados(id_empleado)
 );
+
+
+
 
 create table Productos
 (id_producto int primary key AUTO_INCREMENT not null,
@@ -62,6 +66,14 @@ constraint fk_producto_contiene foreign key (id_producto) references Productos(i
 
 );
 
+
+DELIMITER $
+create trigger sumar_al_inventario before insert on Compras_contiene_productos for each row begin
+update Inventario SET cantidad_inventario=cantidad_inventario + new.cantidad_compra where id_producto=new.id_producto;
+
+END $
+DELIMITER ;
+
 create table Factura_contiene_producto
 (id_factura int not null,
 id_cliente int,
@@ -72,6 +84,13 @@ constraint fk_factura_contienep foreign key (id_factura) references Factura(id_f
 constraint fk_cliente_contienep foreign key (id_cliente) references Cliente(id_cliente),
 constraint fk_producto_contienep foreign key (id_producto) references Productos(id_producto)
 );
+
+DELIMITER $
+create trigger restar_al_inventario before insert on Factura_contiene_producto for each row begin
+update Inventario SET cantidad_inventario=cantidad_inventario - new.cantidad_producto where id_producto=new.id_producto;
+
+END $
+DELIMITER ;
 
 create table Caracteristicas
 (id_caracteristicas int primary key not null,
@@ -92,15 +111,23 @@ create table Inventario
 cantidad_intentario varchar(45)
 );
 
-insert into Cliente values (9090,'juan','3193897599','cll 41 N-34-57');
-insert into Cliente values (2132173,'sebastian','3115717400','atalaya');
-insert into Cliente values (121232,'camilo','123456','piedecuesta');
-insert into Cliente values (434343,'leonardo dallos','4343434','brr la universidad');
 
-insert into Empleados values (10023,'123456','persefone','543343','gerente');
-insert into Empleados values (20023,'123456','lodiba','554333','venedor');
-insert into Empleados values (20054,'123456','narciso','554322','limpieza');
-insert into Empleados values (20005,'cocuyretrix5','luvodipa','5405904','vendedor');
+DELIMITER $
+create trigger agregar_al_inventario before insert on Productos for each row begin
+insert into Inventario values(new.id_producto,0);
+END $
+DELIMITER ;
+
+
+insert into Cliente values (9090,'juan','3193897599','cll 41 N-34-57','bucaramanga');
+insert into Cliente values (2132173,'sebastian','3115717400','atalaya','cucuta');
+insert into Cliente values (121232,'camilo','123456','piedecuesta','bucaramanga');
+insert into Cliente values (434343,'leonardo dallos','4343434','brr la universidad','pegaso');
+
+insert into Empleados values ('10023','123456','persefone','543343','gerente');
+insert into Empleados values ('20023','123456','lodiba','554333','venedor');
+insert into Empleados values ('20054','123456','narciso','554322','limpieza');
+insert into Empleados values ('20005','cocuyretrix5','luvodipa','5405904','vendedor');
 
 insert into Proveedores values (55094,'amazon','+12069220880');
 insert into Proveedores values (55100,'newegg','+12323343454');
