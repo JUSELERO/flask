@@ -6,8 +6,8 @@ app.config['ENV'] = 'development'
 app.config['DEBUG'] = True
 
 app.config['MYSQL_HOST'] = '127.0.0.1'
-app.config['MYSQL_USER'] = 'juse'
-app.config['MYSQL_PASSWORD'] = 'admin'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'JuSeTech'
 
 
@@ -19,10 +19,39 @@ app.secret_key = 'mysecretkey'
 def Inicio():
     return render_template('Inicio.html' )
 
+@app.route("/clientes", methods = ['POST','GET'] )
+def Clientes():
+    if request.method == 'POST':
+        #deve ser corregido para que el post que le llegue guarde los productos
+        return redirect(url_for('Productos'))   
+    else:
+        cur=mysql.connection.cursor()
+        cur.execute('select * from Cliente')
+        data=cur.fetchall()
+        return render_template('clientes.html' , productos = data)
 
-@app.route("/ventas")
+
+@app.route("/ventas", methods = ['POST','GET'] )
 def Ventas():
-    return render_template('ventas.html')
+    if request.method == 'POST':
+        #deve ser corregido para que el post que le llegue guarde las ventas
+        return redirect(url_for('Productos'))   
+    else:
+        cur=mysql.connection.cursor()
+        cur.execute('select P.nombre_producto,P.tipo_producto,P.marca,I.cantidad_inventario from Productos P left join Inventario I on P.id_producto=I.id_producto;')
+        data=cur.fetchall()
+        return render_template('ventas.html' , Ventas = data)
+
+@app.route("/compras", methods = ['POST','GET'] )
+def Compras():
+    if request.method == 'POST':
+        #deve ser corregido para que el post que le llegue guarde las compras('Productos') esta mal
+        return redirect(url_for('Productos'))   
+    else:
+        cur=mysql.connection.cursor()
+        cur.execute('select P.nombre_producto,P.tipo_producto,P.marca,I.cantidad_inventario from Productos P left join Inventario I on P.id_producto=I.id_producto;')
+        data=cur.fetchall()
+        return render_template('ventas.html' , Ventas = data)       
 
 
 @app.route("/ventas-echa")
