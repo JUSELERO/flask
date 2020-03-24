@@ -1,28 +1,29 @@
 # Proyecto Bases
 
 Descripcion del proyecto
+Integrado por Camilo Sanmiguel y Sebastina Leon
 
 # Guia Git
-####Agregar al aera de staging
+#### Agregar al aera de staging
 _Se Preparan los archivos nuevo o actualizados, para poder hacer commit_
 
 `git add .`
 
-####Hacer Commit
+#### Hacer Commit
 _Se realiza commit del area de staging_
 
 `git commit -m "mensaje"`
 
-_Se agregar todos los archivos que previamente que han sido trackeados y luego se realiza commit _
+_Se agregar todos los archivos que previamente que han sido trackeados y luego se realiza commit_
 
 `git commit -am "mensaje"`
 
-####Acualizar Repositorio Local
+#### Acualizar Repositorio Local
 _Se realiza commit del area de staging_
 
 `git pull origin master`
 
-####Acualizar Repositorio Remoto
+#### Acualizar Repositorio Remoto
 _Se realiza commit del area de staging_
 
 `git push origin master`
