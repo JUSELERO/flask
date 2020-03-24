@@ -6,8 +6,8 @@ app.config['ENV'] = 'development'
 app.config['DEBUG'] = True
 
 app.config['MYSQL_HOST'] = '127.0.0.1'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_USER'] = 'juse'
+app.config['MYSQL_PASSWORD'] = 'admin'
 app.config['MYSQL_DB'] = 'JuSeTech'
 
 
@@ -51,7 +51,7 @@ def Compras():
         cur=mysql.connection.cursor()
         cur.execute('select P.nombre_producto,P.tipo_producto,P.marca,I.cantidad_inventario from Productos P left join Inventario I on P.id_producto=I.id_producto;')
         data=cur.fetchall()
-        return render_template('ventas.html' , Ventas = data)       
+        return render_template('compra.html' , compras = data)       
 
 
 @app.route("/ventas-echa")

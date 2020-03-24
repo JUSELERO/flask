@@ -51,14 +51,14 @@
                 </tr>
             </thead>
             <tbody>
-                {% for producto in productos %}
+                {% for compra in compras %}
                 <tr>
-                    <td>{{producto.0 }} </td>
-                    <td>{{producto.1 }} </td>
-                    <td>{{producto.2 }} </td>
-                    <td>{{producto.3 }} </td>
+                    <td>{{compra.0 }} </td>
+                    <td>{{compra.1 }} </td>
+                    <td>{{compra.2 }} </td>
+                    <td>{{compra.3 }} </td>
                     <td>
-                        <a href="/edit/{{producto.0}}" class="btn btn-danger"> Edit </a>
+                        <a href="/edit/{{compra.0}}" class="btn btn-danger"> Edit </a>
                     </td>
                 </tr>
                 {% endfor %}
