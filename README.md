@@ -1,6 +1,7 @@
 # Proyecto Bases
 
 Descripcion del proyecto
+_Integrado por Camilo Sanmiguel y Sebastina Leon_
 
 # Guia Git
 #### Agregar al aera de staging
