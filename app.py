@@ -96,13 +96,7 @@ def get_producto(id):
         tipo=request.form['tipo']
         marca=request.form['marca']
         cur = mysql.connection.cursor()
-        cur.execute("""
-        UPDATE Productos
-        SET nombre_producto = %s,
-        tipo_producto = %s,           
-        marca = %s,       
-        WHERE id = {id}
-        """,(nombre,tipo,marca))
+        cur.execute('UPDATE Productos SET nombre_producto = %s , tipo_producto = %s, marca = %s WHERE id_producto = %s' , (nombre,tipo,marca,id))
         flash('procesador update succefully')
         mysql.connection.commit()
         return redirect(url_for('Productos'))
