@@ -34,7 +34,7 @@ def Clientes():
 @app.route("/ventas", methods = ['POST','GET'] )
 def Ventas():
     if request.method == 'POST':
-        #deve ser corregido para que el post que le llegue guarde las ventas
+        print(request.form.getlist('cantidad[]'))
         return redirect(url_for('Productos'))   
     else:
         cur=mysql.connection.cursor()
@@ -130,4 +130,4 @@ def Crear_usuario():
         return render_template('crear-usuario.html')
 
 if __name__=='__main__':
-    app.run(port = 3000)
+    app.run(host= '0.0.0.0',port = 3000)
