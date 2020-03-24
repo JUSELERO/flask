@@ -78,6 +78,9 @@ def Productos():
         data=cur.fetchall()
         return render_template('productos.html' , productos = data)
 
+
+    
+
 @app.route('/delete/<string:id>')
 def delete_producto(id):
     cur = mysql.connection.cursor()
@@ -86,31 +89,29 @@ def delete_producto(id):
     flash('contact delet succesfully')
     return redirect(url_for('Productos'))
 
-@app.route('/edit/<id>')
+@app.route('/edit/<id>',methods = ['POST','GET'] )
 def get_producto(id):
     if request.method == 'POST':
         nombre=request.form['nombre']
-        cores=request.form['cores']
+        tipo=request.form['tipo']
         marca=request.form['marca']
-        frecuencia=request.form['frecuencia']
         cur = mysql.connection.cursor()
         cur.execute("""
-        UPDATE procesadores 
-        SET nombre = %s,
-        cores = %s,
-        marca = %s,
-        frecuencia = %s 
-        WHERE id = %s
-        """,(nombre,cores,marca,frecuencia,id))
+        UPDATE Productos
+        SET nombre_producto = %s,
+        tipo_producto = %s,           
+        marca = %s,       
+        WHERE id = {id}
+        """,(nombre,tipo,marca))
         flash('procesador update succefully')
         mysql.connection.commit()
         return redirect(url_for('Productos'))
     else :
         cur = mysql.connection.cursor()
-        cur.execute('SELECT * FROM procesadores WHERE id = {}'.format(id))
+        cur.execute('SELECT * FROM Productos WHERE id_producto = {}'.format(id))
         data = cur.fetchall()
         print (data[0])
-        return render_template('edit-procesador.html',procesador = data[0])
+        return render_template('edit-productos.html',procesador = data[0])
 
 #Inicio de sesion
 @app.route("/Sesion")
