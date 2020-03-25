@@ -24,28 +24,24 @@
         <div class="card card-body">
             <form method='POST' action="/ventas">
                 <div class="form-row">
-                    <select class="browser-default custom-select mb-4 col">
-                        <option value="" disabled>Empleado</option>
-                        <option value="1" selected>pedro</option>
-                        <option value="2">mateo</option>
-                    </select>
+                    <input name="id_vendedor" type="text" class="form-control col mb-4"
+                        placeholder="id vendedor">
 
-                    <select class="browser-default custom-select mb-4 col">
-                        <option value="" disabled>Cliente</option>
-                        <option value="1" selected>pedro</option>
-                        <option value="2">mateo</option>
-                    </select>
+                    <input name="id_cliente" type="text" class="form-control col mb-4"
+                        placeholder="id cliente">
                 </div>
                 <div id="myconte" class="div">
                     <div class="form-row">
-                        <select name="producto[]" class="browser-default custom-select mb-4 col-8">
-                            <option value="" disabled>Producto</option>
-                            <option value="1" selected>Ram</option>
-                            <option value="2">HDD</option>
-                        </select>
-                        <div class="col-4">
-                            <input name="cantidad[]" type="text" id="defaultRegisterFormFirstName" class="form-control col"
-                                placeholder="Cantidad">
+                        <input name="id_producto[]" type="text" class="mb-4 form-control col"
+                        placeholder="id producto">
+
+                        <div class="col-3">
+                            <input name="cantidad[]" type="text" class="mb-4 form-control col"
+                            placeholder="cantidad">
+                        </div>
+                        <div class="col-3">
+                            <input name="precio[]" type="text" class="mb-4 form-control col"
+                            placeholder="precio">
                         </div>
                     </div>
                 </div>

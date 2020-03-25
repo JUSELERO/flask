@@ -34,8 +34,19 @@ def Clientes():
 @app.route("/ventas", methods = ['POST','GET'] )
 def Ventas():
     if request.method == 'POST':
-        print(request.form.getlist('cantidad[]'))
-        return redirect(url_for('Productos'))   
+        id_vendedor = request.form['id_vendedor']        
+        id_cliente = request.form['id_cliente']
+        id_producto = request.form.getlist('id_producto[]')
+        cantidad = request.form.getlist('cantidad[]')
+        precio = request.form.getlist('precio[]')
+
+        for i,id in enumerate(id_producto):
+            cur = mysql.connection.cursor()
+            cur.execute()
+            mysql.connection.commit()
+        flash('Good job')
+
+        return redirect(url_for('Ventas'))   
     else:
         cur=mysql.connection.cursor()
         cur.execute('select P.nombre_producto,P.tipo_producto,P.marca,I.cantidad_inventario from Productos P left join Inventario I on P.id_producto=I.id_producto;')
@@ -45,21 +56,24 @@ def Ventas():
 @app.route("/compras", methods = ['POST','GET'] )
 def Compras():
     if request.method == 'POST':
-        #deve ser corregido para que el post que le llegue guarde las compras('Productos') esta mal
-        return redirect(url_for('Productos'))   
+        id_vendedor = request.form['id_vendedor']        
+        id_cliente = request.form['id_cliente']
+        id_producto = request.form.getlist('id_producto[]')
+        cantidad = request.form.getlist('cantidad[]')
+        precio = request.form.getlist('precio[]')
+
+        for i,id in enumerate(id_producto):
+            cur = mysql.connection.cursor()
+            cur.execute()
+            mysql.connection.commit()
+        flash('Good job')
+
+        return redirect(url_for('Compras'))   
     else:
         cur=mysql.connection.cursor()
         cur.execute('select P.nombre_producto,P.tipo_producto,P.marca,I.cantidad_inventario from Productos P left join Inventario I on P.id_producto=I.id_producto;')
         data=cur.fetchall()
         return render_template('compra.html' , compras = data)       
-
-
-@app.route("/ventas-echa")
-def Ventas_echa():
-    cur=mysql.connection.cursor()
-    cur.execute('select P.nombre_producto,P.tipo_producto,P.marca,I.cantidad_inventario from Productos P left join Inventario I on P.id_producto=I.id_producto;')
-    data=cur.fetchall()
-    return render_template('ventas.html' , Ventas = data)
 
 @app.route('/productos' , methods = ['POST','GET'] )
 def Productos():
