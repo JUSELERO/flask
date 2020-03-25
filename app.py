@@ -276,5 +276,4 @@ def Crear_usuario():
         return render_template('crear-usuario.html')
 
 if __name__=='__main__':
-    #app.run(host= '0.0.0.0',port = 3000)
-    app.run(debug=True, host='192.168.1.53',port=int("80"))
+    app.run(debug=True, host='192.168.1.56',port=80)
