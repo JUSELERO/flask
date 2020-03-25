@@ -23,14 +23,20 @@
         <div class="card card-body">
 
             <form action="/productos" method='POST'>
-                <div class="form-grooup">
+                <div class="form-group">
+                    <input type="text" name="om" placeholder="Id" class="form-control">
+                </div>
+                <div class="form-group">
                     <input type="text" name="nombre" placeholder="Nombre" class="form-control">
                 </div>
-                <div class="form-grooup">
+                <div class="form-group">
                     <input type="text" name="tipo" placeholder="Tipo de producto" class="form-control">
                 </div>
                 <div class="form-group">
                     <input type="text" name="marca" placeholder="Marca" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="precio" placeholder="Precio" class="form-control">
                 </div>
                 <div class="form-group">
                     <button type='submit' class="btn btn-primary btn-block">save</button>
@@ -46,8 +52,9 @@
                 <tr>
                     <td>id_producto</td>
                     <td>nombre </td>
-                    <td>tipo</td>
-                    <td>marca </td>
+                    <td>Tipo</td>
+                    <td>Marca </td>
+                    <td>Precio venta </td>
                 </tr>
             </thead>
             <tbody>
@@ -55,8 +62,9 @@
                 <tr>
                     <td>{{producto.0 }} </td>
                     <td>{{producto.1 }} </td>
-                    <td>{{producto.2 }} </td>
+                    <td>{{producto.2 }} </td>                    
                     <td>{{producto.3 }} </td>
+                    <td>{{producto.4 }} </td>
                     <td><a href="/delete/{{producto.0}}" class="btn btn-warning"> Delete </a>
                         <a href="/edit/{{producto.0}}" class="btn btn-danger"> Edit </a>
                     </td>
