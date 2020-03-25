@@ -6,8 +6,8 @@ app.config['ENV'] = 'development'
 app.config['DEBUG'] = True
 
 app.config['MYSQL_HOST'] = '127.0.0.1'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_USER'] = 'juse'
+app.config['MYSQL_PASSWORD'] = 'admin'
 app.config['MYSQL_DB'] = 'JuSeTech'
 
 
@@ -51,12 +51,18 @@ def Ventas():
         cantidad = request.form.getlist('cantidad[]')
         precio = request.form.getlist('precio[]')
 
+        cur = mysql.connection.cursor()
+        cur.execute('INSERT INTO Factura (fecha,id_cliente,id_empleado) VALUES (curdate(),%s,%s)',(id_cliente,id_vendedor))
+        mysql.connection.commit()
+
+        id_factura = cur.lastrowid
+
         for i,id in enumerate(id_producto):
             cur = mysql.connection.cursor()
-            cur.execute()
+            cur.execute('INSERT INTO Factura_contiene_producto (id_factura,id_cliente,id_producto,cantidad_producto,valor_unidad) VALUES (%s,%s,%s,%s,%s)',(id_factura,id_cliente,id_producto[i],cantidad[i],precio[i]))
             mysql.connection.commit()
-        flash('Good job')
 
+        flash('Good job')
         return redirect(url_for('Ventas'))   
     else:
         cur=mysql.connection.cursor()
@@ -73,9 +79,15 @@ def Compras():
         cantidad = request.form.getlist('cantidad[]')
         precio = request.form.getlist('precio[]')
 
+        cur = mysql.connection.cursor()
+        cur.execute('INSERT INTO Compras (fecha,id_empleado,id_proveedor) VALUES (curdate(),%s,%s)',(id_vendedor,id_cliente))
+        mysql.connection.commit()
+
+        id_factura = cur.lastrowid
+
         for i,id in enumerate(id_producto):
             cur = mysql.connection.cursor()
-            cur.execute()
+            cur.execute('INSERT INTO Compras_contiene_productos (id_compras_factura,id_empleado,id_proveedor,id_producto,cantidad_compra,valor_unidad) VALUES (%s,%s,%s,%s,%s,%s)',(id_factura,id_vendedor,id_cliente,id_producto[i],cantidad[i],precio[i]))
             mysql.connection.commit()
         flash('Good job')
 
