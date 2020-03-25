@@ -22,15 +22,24 @@
 
         <div class="card card-body">
 
-            <form action="/productos" method='POST'>
-                <div class="form-grooup">
-                    <input type="text" name="nombre" placeholder="Nombre" class="form-control">
-                </div>
-                <div class="form-grooup">
-                    <input type="text" name="tipo" placeholder="Tipo de producto" class="form-control">
+            <form action="/clientes" method='POST'>
+                <div class="form-group">
+                    <input type="text" name="cedula" placeholder="Cedula" class="form-control">
                 </div>
                 <div class="form-group">
-                    <input type="text" name="marca" placeholder="Marca" class="form-control">
+                    <input type="text" name="nombre" placeholder="Nombre" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="telefono" placeholder="Telefono" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="direccion" placeholder="Direccion" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="ciudad" placeholder="Ciudad" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="correo" placeholder="Correo" class="form-control">
                 </div>
                 <div class="form-group">
                     <button type='submit' class="btn btn-primary btn-block">save</button>
@@ -49,6 +58,7 @@
                     <td>Telefono</td>
                     <td>Direccion </td>
                     <td>Ciudad </td>
+                    <td>Correo </td>
                 </tr>
             </thead>
             <tbody>
@@ -59,8 +69,9 @@
                     <td>{{producto.2 }} </td>
                     <td>{{producto.3 }} </td>
                     <td>{{producto.4 }} </td>
-                    <td><a href="/delete/{{producto.0}}" class="btn btn-warning"> Delete </a>
-                        <a href="/edit/{{producto.0}}" class="btn btn-danger"> Edit </a>
+                    <td>{{producto.5 }} </td>
+                    <td><!--<a href="/edit-cliente/{{producto.0}}" class="btn btn-warning"> Delete </a>-->
+                        <a href="/edit-cliente/{{producto.0}}" class="btn btn-danger"> Edit </a>
                     </td>
                 </tr>
                 {% endfor %}

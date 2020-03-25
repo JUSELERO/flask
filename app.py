@@ -22,9 +22,20 @@ def Inicio():
 @app.route("/clientes", methods = ['POST','GET'] )
 def Clientes():
     if request.method == 'POST':
-        #deve ser corregido para que el post que le llegue guarde los productos
-        return redirect(url_for('Productos'))   
+        #si se le llama con metodo POST insertara un valor a la tabla Clientes
+        cedula=request.form['cedula']
+        nombre=request.form['nombre']
+        telefono=request.form['telefono']
+        ciudad=request.form['ciudad']
+        direccion= request.form['direccion']
+        correo= request.form['correo']
+        cur = mysql.connection.cursor()
+        cur.execute('INSERT INTO Cliente( id_cliente,nombre_cliente, telefono_cliente, direccion_cliente, ciudad_cliente, correo_cliente) VALUES (%s,%s,%s,%s,%s,%s)' , (cedula,nombre,telefono,ciudad,direccion,correo))
+        flash('procesador update succefully')
+        mysql.connection.commit()
+        return redirect(url_for('Clientes')) #devuelve la llamada para que le envien a la pagina la consulta de la base
     else:
+        #si se le llama simplemente , enviara la consulta para renderizarla en la paginal
         cur=mysql.connection.cursor()
         cur.execute('select * from Cliente')
         data=cur.fetchall()
@@ -38,7 +49,7 @@ def Ventas():
         return redirect(url_for('Productos'))   
     else:
         cur=mysql.connection.cursor()
-        cur.execute('select P.nombre_producto,P.tipo_producto,P.marca,I.cantidad_inventario from Productos P left join Inventario I on P.id_producto=I.id_producto;')
+        cur.execute('select P.nombre_producto,P.tipo_producto,P.marca,I.cantidad_inventario,P.valor_unidad from Productos P left join Inventario I on P.id_producto=I.id_producto;')
         data=cur.fetchall()
         return render_template('ventas.html' , Ventas = data)
 
@@ -64,11 +75,13 @@ def Ventas_echa():
 @app.route('/productos', methods = ['POST','GET'] )
 def Productos():
     if request.method == 'POST':
+        om= request.form['om']   
         nombre = request.form['nombre']        
         marca = request.form['marca']
         tipo= request.form['tipo']
+        precio= request.form['precio']
         cur = mysql.connection.cursor()
-        cur.execute('INSERT INTO Productos (nombre_producto,tipo_producto,marca) VALUES (%s,%s,%s)' , (nombre,tipo,marca))
+        cur.execute('INSERT INTO Productos (id_producto,nombre_producto,tipo_producto,marca,valor_unidad) VALUES (%s,%s,%s,%s,%s)' , (om,nombre,tipo,marca,precio))
         mysql.connection.commit()
         flash('Good job')
         return redirect(url_for('Productos'))
@@ -95,8 +108,9 @@ def get_producto(id):
         nombre=request.form['nombre']
         tipo=request.form['tipo']
         marca=request.form['marca']
+        precio= request.form['precio']
         cur = mysql.connection.cursor()
-        cur.execute('UPDATE Productos SET nombre_producto = %s , tipo_producto = %s, marca = %s WHERE id_producto = %s' , (nombre,tipo,marca,id))
+        cur.execute('UPDATE Productos SET nombre_producto = %s , tipo_producto = %s, marca = %s, valor_unidad = %s WHERE id_producto = %s' , (nombre,tipo,marca,precio,id))
         flash('procesador update succefully')
         mysql.connection.commit()
         return redirect(url_for('Productos'))
@@ -106,6 +120,112 @@ def get_producto(id):
         data = cur.fetchall()
         print (data[0])
         return render_template('edit-productos.html',procesador = data[0])
+
+@app.route('/edit-cliente/<id>',methods = ['POST','GET'] )
+def Get_clientes(id):
+    if request.method == 'POST':
+        nombre=request.form['nombre']
+        telefono=request.form['telefono']
+        ciudad=request.form['ciudad']
+        direccion= request.form['direccion']
+        correo= request.form['correo']
+        cur = mysql.connection.cursor()
+        cur.execute('UPDATE Cliente SET nombre_cliente = %s , telefono_cliente= %s, direccion_cliente = %s, ciudad_cliente = %s, correo_cliente = %s WHERE id_cliente= %s' , (nombre,telefono,ciudad,direccion,correo,id))
+        flash('procesador update succefully')
+        mysql.connection.commit()
+        return redirect(url_for('Clientes'))
+    else :
+        cur = mysql.connection.cursor()
+       # cur.execute(f'DELETE FROM Cliente WHERE id_cliente = {id}')  codigo para elimina (NO QUEDA EN USO) 
+        cur.execute('SELECT * FROM Cliente WHERE id_cliente = {}'.format(id))
+        data = cur.fetchall()
+        print (data[0])
+        return render_template('edit-cliente.html',procesador = data[0])
+
+
+@app.route('/empleados', methods = ['POST','GET'] )
+def Empleados():
+    if request.method == 'POST':
+        om= request.form['om']   
+        nombre = request.form['nombre']  
+        telefono=request.form['telefono']      
+        cargo = request.form['cargo']
+        correo= request.form['correo']
+        cur = mysql.connection.cursor()
+        cur.execute('INSERT INTO Empleados (id_empleado,clave,nombre_empleado,telefono_empleado,cargo_empleado,correo_cliente) VALUES (%s,%s,%s,%s,%s,%s)' , (om,correo,nombre,telefono,cargo,correo))
+        mysql.connection.commit()
+        flash('Good job')
+        return redirect(url_for('Empleados'))
+    else:
+        cur=mysql.connection.cursor()
+        cur.execute('SELECT * FROM Empleados')
+        data=cur.fetchall()
+        return render_template('empleados.html' , productos = data)
+
+
+@app.route('/edit-empleado/<id>',methods = ['POST','GET'] )
+def Get_empleados(id):
+    if request.method == 'POST':
+        om= request.form['om']   
+        nombre = request.form['nombre']  
+        telefono=request.form['telefono']      
+        cargo = request.form['cargo']
+        correo= request.form['correo']
+        cur = mysql.connection.cursor()
+        cur.execute('UPDATE Empleados SET id_empleado = %s , nombre_empleado = %s , telefono_empleado= %s, cargo_empleado = %s, correo_cliente = %s WHERE id_empleado= %s' , (om,nombre,telefono,cargo,correo,id))
+        flash('procesador update succefully')
+        mysql.connection.commit()
+        return redirect(url_for('Empleados'))
+    else :
+        cur = mysql.connection.cursor()
+       # cur.execute(f'DELETE FROM Cliente WHERE id_cliente = {id}')  codigo para elimina (NO QUEDA EN USO) 
+        cur.execute('SELECT * FROM Empleados WHERE id_empleado = {}'.format(id))
+        data = cur.fetchall()
+        print (data[0])
+        return render_template('edit-empleado.html',procesador = data[0])
+
+@app.route('/proveedores', methods = ['POST','GET'] )
+def Proveedores():
+    if request.method == 'POST':
+        om= request.form['om']   
+        nombre = request.form['nombre']  
+        telefono=request.form['telefono']      
+        cur = mysql.connection.cursor()
+        cur.execute('INSERT INTO Proveedores (id_proveedore,nombre_proveedor,tel_proveedor) VALUES (%s,%s,%s)' , (om,nombre,telefono))
+        mysql.connection.commit()
+        flash('Good job')
+        return redirect(url_for('Proveedores'))
+    else:
+        cur=mysql.connection.cursor()
+        cur.execute('SELECT * FROM Proveedores')
+        data=cur.fetchall()
+        return render_template('proveedores.html' , productos = data)
+
+@app.route('/edit-proveedor/<id>',methods = ['POST','GET'] )
+def Get_proveedores(id):
+    if request.method == 'POST':
+        om= request.form['om']   
+        nombre = request.form['nombre']  
+        telefono=request.form['telefono']      
+        cur = mysql.connection.cursor()
+        cur.execute('UPDATE Proveedores SET id_proveedor = %s , nombre_proveedor = %s , tel_proveedor= %s WHERE id_proveedor= %s' , (om,nombre,telefono,id))
+        flash('procesador update succefully')
+        mysql.connection.commit()
+        return redirect(url_for('Proveedores'))
+    else :
+        cur = mysql.connection.cursor()
+       # cur.execute(f'DELETE FROM Cliente WHERE id_cliente = {id}')  codigo para elimina (NO QUEDA EN USO) 
+        cur.execute('SELECT * FROM Proveedores WHERE id_proveedor = {}'.format(id))
+        data = cur.fetchall()
+        print (data[0])
+        return render_template('edit-proveedor.html',procesador = data[0])
+
+
+
+
+
+
+###### bet ###############################################
 
 #Inicio de sesion
 @app.route("/Sesion")
