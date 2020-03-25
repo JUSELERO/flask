@@ -20,35 +20,20 @@
         {% endif %}
         {% endwith %}
 
-        <div class="card card-body">
-
-            <form action="/empleados" method='POST'>
-                <div class="form-group">
-                    <input type="text" name="om" placeholder="Identificacion" class="form-control">
-                </div>
-                <div class="form-group">
-                    <input type="text" name="nombre" placeholder="Nombre" class="form-control">
-                </div>
-                <div class="form-group">
-                    <input type="text" name="telefono" placeholder="Telefono" class="form-control">
-                </div>
-                <div class="form-group">
-                    <button type='submit' class="btn btn-primary btn-block">save</button>
-                </div>
-                            </form>
-
-        </div>
+        
 
     </div>
     <div class="col-md-7">
         <table class="table table-striped table-bordered bg-white ">
             <thead>
                 <tr>
-                    <td>identificador</td>
-                    <td>Nombre</td>
-                    <td>Telefono</td>
-                    
-                </tr>
+                    <td>id factura</td>
+                    <td>id Producto </td>
+                    <td>cantidad compra</td>
+                    <td>valor de unidad</td>
+                    <td>nombre producto</td>
+                    <td>tipo producto</td>
+                     </tr>
             </thead>
             <tbody>
                 {% for producto in productos %}
@@ -56,9 +41,11 @@
                     <td>{{producto.0 }} </td>
                     <td>{{producto.1 }} </td>
                     <td>{{producto.2 }} </td>
-                 
-                    <td>
-                        <a href="/edit-proveedor/{{producto.0}}" class="btn btn-danger"> Edit </a>
+                    <td>{{producto.5 }} </td>
+                    <td>{{producto.4 }} </td>
+                    <td>{{producto.3 }} </td>
+                    <td><!--<a href="/edit-cliente/{{producto.0}}" class="btn btn-warning"> Delete </a>-->
+                        
                     </td>
                 </tr>
                 {% endfor %}

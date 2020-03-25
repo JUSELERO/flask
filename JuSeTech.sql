@@ -52,7 +52,7 @@ create table Productos
 nombre_producto varchar(45),
 tipo_producto varchar(45),
 marca varchar(45),
-valor_unidad varchar(45)
+valor_unidad float
 );
 
 create table Compras_contiene_productos

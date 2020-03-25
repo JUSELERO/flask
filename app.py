@@ -6,8 +6,8 @@ app.config['ENV'] = 'development'
 app.config['DEBUG'] = True
 
 app.config['MYSQL_HOST'] = '127.0.0.1'
-app.config['MYSQL_USER'] = 'juse'
-app.config['MYSQL_PASSWORD'] = 'admin'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'JuSeTech'
 
 
@@ -94,7 +94,7 @@ def Compras():
         return redirect(url_for('Compras'))   
     else:
         cur=mysql.connection.cursor()
-        cur.execute('select P.nombre_producto,P.tipo_producto,P.marca,I.cantidad_inventario from Productos P left join Inventario I on P.id_producto=I.id_producto;')
+        cur.execute('select P.nombre_producto,P.tipo_producto,P.marca,I.cantidad_inventario,P.valor_unidad from Productos P left join Inventario I on P.id_producto=I.id_producto;')
         data=cur.fetchall()
         return render_template('compra.html' , compras = data)       
 
@@ -118,6 +118,29 @@ def Productos():
         return render_template('productos.html' , productos = data)
 
 
+@app.route('/ventas-t' , methods = ['POST','GET'] )
+def Ventas_t():
+    if request.method == 'POST':
+        om= request.form['om']   
+        nombre = request.form['nombre']        
+        #if no hace nada en +
+    else:
+        cur=mysql.connection.cursor()
+        cur.execute('select C.id_factura,C.id_producto,C.cantidad_producto,P.nombre_producto,P.tipo_producto,C.valor_unidad from Factura_contiene_producto C left join Productos P on C.id_producto=P.id_producto ;')
+        data=cur.fetchall()
+        return render_template('ventas-t.html' , productos = data)
+
+@app.route('/compras-t' , methods = ['POST','GET'] )
+def Compras_t():
+    if request.method == 'POST':
+        om= request.form['om']   
+        nombre = request.form['nombre']  
+        #if no hace nada en +
+    else:
+        cur=mysql.connection.cursor()
+        cur.execute('select C.id_compras_factura,C.id_producto,C.cantidad_compra,P.nombre_producto,P.tipo_producto,C.valor_unidad from Compras_contiene_productos C left join Productos P on C.id_producto=P.id_producto ;')
+        data=cur.fetchall()
+        return render_template('compras-t.html' , productos = data)
     
 
 @app.route('/delete/<string:id>')
