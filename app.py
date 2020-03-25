@@ -6,8 +6,8 @@ app.config['ENV'] = 'development'
 app.config['DEBUG'] = True
 
 app.config['MYSQL_HOST'] = '127.0.0.1'
-app.config['MYSQL_USER'] = 'juse'
-app.config['MYSQL_PASSWORD'] = 'admin'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'JuSeTech'
 
 
@@ -61,7 +61,7 @@ def Ventas_echa():
     data=cur.fetchall()
     return render_template('ventas.html' , Ventas = data)
 
-@app.route('/productos' , methods = ['POST','GET'] )
+@app.route('/productos', methods = ['POST','GET'] )
 def Productos():
     if request.method == 'POST':
         nombre = request.form['nombre']        
